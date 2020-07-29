@@ -156,10 +156,12 @@ def report_progress(typed, prompt, id, send):
     # BEGIN PROBLEM 8
     count = 0 
     for i in range(min(len(prompt),len(typed))): 
-        if prompt[i] != typed[i]: return 100*count/len(prompt)
+        if prompt[i] != typed[i]: 
+            send({"id": id, "progress": count/len(prompt)})
+            return count/len(prompt)
         count += 1
-    send({"ID": id, "Progress": 100*count/len(prompt)})
-    return 100*count/len(prompt)
+    send({"id": id, "progress": count/len(prompt)})
+    return count/len(prompt)
     # END PROBLEM 8
 
 
@@ -185,7 +187,12 @@ def time_per_word(times_per_player, words):
         words: a list of words, in the order they are typed.
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    times = [['']*len(words)]*len(times_per_player)
+    for i in range(len(times_per_player)):
+        for j in range(len(times_per_player[i]) - 1) :
+            times[i][j] = times_per_player[i][j+1]-times_per_player[i][j]
+    return game(words, times)
+
     # END PROBLEM 9
 
 
