@@ -121,18 +121,16 @@ def feline_fixes(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
 
     
-    if limit < 0 : # Fill in the condition
-        # BEGIN
-        return 0
-        # END
+    if limit < 0 or goal == start: return 0
 
-    elif len(start) == 1 or len(goal) == 1: # Feel free to remove or add additional cases
+    elif len(goal) == 1: # Feel free to remove or add additional cases
         # BEGIN
-        return abs(len(start) - len(goal)) if start[0] == goal[0] else 1 + abs(len(start) - len(goal))
+        if start[0] == goal: return len(start) - 1
+        else: return 1 + feline_fixes(start[1:],goal, limit - 1) if len(start) > 1 else len(start)
         # END
     elif len(start) == 1:
-        if start == goal: return 0
-        elif start == goal[0]: return 
+        if start == goal[0]: return len(goal) - 1
+        else: return 1 + feline_fixes(start, goal[1:], limit - 1)
     else:
         no_diff = feline_fixes(start[1:],goal[1:], limit) if start[0] == goal[0] else inf
         add_diff = 1 + feline_fixes(start,goal[1:],limit - 1)  # Fill in these lines
