@@ -119,26 +119,29 @@ def sphinx_swap(start, goal, limit):
 
 def feline_fixes(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
 
-    if ______________: # Fill in the condition
+    
+    if limit < 0 : # Fill in the condition
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return 0
         # END
 
-    elif ___________: # Feel free to remove or add additional cases
+    elif len(start) == 1 or len(goal) == 1: # Feel free to remove or add additional cases
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return abs(len(start) - len(goal)) if start[0] == goal[0] else 1 + abs(len(start) - len(goal))
         # END
-
+    elif len(start) == 1:
+        if start == goal: return 0
+        elif start == goal[0]: return 
     else:
-        add_diff = ...  # Fill in these lines
-        remove_diff = ... 
-        substitute_diff = ... 
+        no_diff = feline_fixes(start[1:],goal[1:], limit) if start[0] == goal[0] else inf
+        add_diff = 1 + feline_fixes(start,goal[1:],limit - 1)  # Fill in these lines
+        remove_diff = 1 + feline_fixes(start[1:],goal, limit - 1) 
+        substitute_diff = 1 + feline_fixes(start[1:],goal[1:], limit - 1)
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return min(add_diff,remove_diff,substitute_diff,no_diff)
         # END
-
+    
 
 def final_diff(start, goal, limit):
     """A diff function. If you implement this function, it will be used."""
@@ -153,7 +156,12 @@ def final_diff(start, goal, limit):
 def report_progress(typed, prompt, id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    count = 0 
+    for i in range(min(len(prompt),len(typed))): 
+        if prompt[i] != typed[i]: return 100*count/len(prompt)
+        count += 1
+    send({"ID": id, "Progress": 100*count/len(prompt)})
+    return 100*count/len(prompt)
     # END PROBLEM 8
 
 
