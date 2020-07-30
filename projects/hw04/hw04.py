@@ -241,7 +241,16 @@ def make_joint(withdraw, old_pass, new_pass):
     >>> make_joint(w, 'hax0r', 'hello')
     "Your account is locked. Attempts: ['my', 'secret', 'password']"
     """
-    "*** YOUR CODE HERE ***"
+    def joint_withdraw(amount, password):
+        if password == new_pass:
+            return withdraw(amount, old_pass)
+        else:
+            return withdraw(amount, password)
+    error = withdraw(0, old_pass)
+    if type(error) == str:
+        return error
+    else:
+        return joint_withdraw
 
 
 
@@ -321,10 +330,12 @@ def interval(a, b):
 def lower_bound(x):
     """Return the lower bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[0]
 
 def upper_bound(x):
     """Return the upper bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[1]
 
 def str_interval(x):
     """Return a string representation of interval x.
