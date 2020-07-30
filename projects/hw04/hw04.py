@@ -44,12 +44,12 @@ def end(s):
 def planet(size):
     """Construct a planet of some size."""
     assert size > 0
-    "*** YOUR CODE HERE ***"
+    return ['planet', size]
 
 def size(w):
     """Select the size of a planet."""
     assert is_planet(w), 'must call size on a planet'
-    "*** YOUR CODE HERE ***"
+    return w[1]
 
 def is_planet(w):
     """Whether w is a planet."""
@@ -65,7 +65,7 @@ def examples():
     return (t, u, v)
 
 def total_weight(m):
-    """Return the total weight of m, a planet or mobile.
+    """Return the total weight of m, a planet or moble.
 
     >>> t, u, v = examples()
     >>> total_weight(t)
@@ -97,7 +97,8 @@ def balanced(m):
     >>> balanced(mobile(arm(1, w), arm(1, v)))
     False
     """
-    "*** YOUR CODE HERE ***"
+    if is_planet(m): return True
+    else: return total_weight(end(right(m)))*length(right(m)) == total_weight(end(left(m)))*length(left(m)) and balanced(end(right(m))) and balanced(end(left(m)))
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
@@ -124,7 +125,8 @@ def totals_tree(m):
           3
           2
     """
-    "*** YOUR CODE HERE ***"
+    if is_planet(m): return tree(size(m))
+    else: return tree(total_weight(m), [total_weight(end(left(m))), total_weight(end(right(m)))])
 
 def replace_leaf(t, old, replacement):
     """Returns a new tree where every leaf value equal to old has
