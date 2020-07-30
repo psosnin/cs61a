@@ -352,16 +352,15 @@ def add_interval(x, y):
 def mul_interval(x, y):
     """Return the interval that contains the product of any value in x and any
     value in y."""
-    p1 = x[0] * y[0]
-    p2 = x[0] * y[1]
-    p3 = x[1] * y[0]
-    p4 = x[1] * y[1]
-    return [min(p1, p2, p3, p4), max(p1, p2, p3, p4)]
+    mul = [lower_bound(x)*lower_bound(y), lower_bound(x)*upper_bound(y), upper_bound(x)*lower_bound(y),upper_bound(x)*upper_bound(y)]
+    return interval(min(mul),max(mul))
 
 def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
-    "*** YOUR CODE HERE ***"
+    lower = lower_bound(x)-upper_bound(y)
+    upper = upper_bound(x) - lower_bound(y)
+    return interval(lower,upper)
 
 def div_interval(x, y):
     """Return the interval that contains the quotient of any value in x divided by
