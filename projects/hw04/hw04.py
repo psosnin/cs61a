@@ -157,7 +157,8 @@ def replace_leaf(t, old, replacement):
     >>> laerad == yggdrasil # Make sure original tree is unmodified
     True
     """
-    "*** YOUR CODE HERE ***"
+    if is_leaf(t) and label(t) == old: return tree(replacement)
+    else: return tree(label(t), [replace_leaf(branch,old,replacement) for branch in branches(t)])
 
 def make_withdraw(balance, password):
     """Return a password-protected withdraw function.
@@ -187,7 +188,20 @@ def make_withdraw(balance, password):
     >>> type(w(10, 'l33t')) == str
     True
     """
-    "*** YOUR CODE HERE ***"
+    incorrect_passwords = []
+    def withdraw(amount,pass_in):
+        nonlocal balance
+        nonlocal incorrect_passwords
+        if len(incorrect_passwords) >= 3:
+                return "Your account is locked. Attempts: " + str(incorrect_passwords)
+        elif password != pass_in: 
+            incorrect_passwords += [pass_in]    
+            return 'Incorrect password'
+        elif amount > balance:
+           return 'Insufficient funds'
+        balance = balance - amount
+        return balance
+    return withdraw
 
 def make_joint(withdraw, old_pass, new_pass):
     """Return a password-protected withdraw function that has joint access to
