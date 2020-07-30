@@ -186,15 +186,14 @@ def time_per_word(times_per_player, words):
                           the player finished typing each word.
         words: a list of words, in the order they are typed.
     """
-    # BEGIN PROBLEM 9
-    times = [['']*len(words)]*len(times_per_player)
+    times = ['']*len(times_per_player)
     for i in range(len(times_per_player)):
-        for j in range(len(times_per_player[i]) - 1) :
+        times[i] = ['']*len(words)
+        for j in range(len(times_per_player[i]) - 1):
             times[i][j] = times_per_player[i][j+1]-times_per_player[i][j]
     return game(words, times)
 
-    # END PROBLEM 9
-
+import operator
 
 def fastest_words(game):
     """Return a list of lists of which words each player typed fastest.
@@ -204,12 +203,20 @@ def fastest_words(game):
     Returns:
         a list of lists containing which words each player typed fastest
     """
-    players = range(len(all_times(game)))  # An index for each player
-    words = range(len(all_words(game)))    # An index for each word
-    # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 10
+    times = all_times(game)  
+    words = all_words(game)  
+    players = range(len(times))
+    fast_words_list = [[] for i in players]
+    for word in range(len(words)):
+        word_times = times_for_word(game, word) 
+        min_index, min_value = min(enumerate(word_times), key=operator.itemgetter(1))
+        fast_words_list[min_index] = [words[word]] if fast_words_list[min_index] == [] else fast_words_list[min_index] + [words[word]] 
+    return fast_words_list
 
+def times_for_word(game,w):
+    """Returns a list of the times taken for each player to type the word at index w in the game"""
+    players = range(len(all_times(game)))
+    return [time(game, player, w) for player in players]
 
 def game(words, times):
     """A data abstraction containing all words typed and their times."""
