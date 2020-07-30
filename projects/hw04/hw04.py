@@ -126,7 +126,7 @@ def totals_tree(m):
           2
     """
     if is_planet(m): return tree(size(m))
-    else: return tree(total_weight(m), [total_weight(end(left(m))), total_weight(end(right(m)))])
+    else: return tree(total_weight(m), [totals_tree(end(left(m))), totals_tree(end(right(m)))])
 
 def replace_leaf(t, old, replacement):
     """Returns a new tree where every leaf value equal to old has
