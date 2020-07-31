@@ -25,7 +25,12 @@ def cumulative_mul(t):
     >>> t
     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
     """
-    "*** YOUR CODE HERE ***"
+    total = 1
+    for branch in t.branches:
+        cumulative_mul(branch)
+    for branch in t.branches:
+        total = total*branch.label
+    t.label = total*t.label
 
 # Link List Class
 class Link:
