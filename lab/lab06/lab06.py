@@ -44,7 +44,15 @@ def make_fib():
     >>> check(this_file, 'make_fib', ['List'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    prv,nxt = -1, 1 
+    def fib(): 
+        nonlocal prv
+        nonlocal nxt
+        fib = nxt + prv
+        prv = nxt
+        nxt = fib
+        return fib
+    return fib
 
 # Generators
 def naturals():
@@ -76,6 +84,7 @@ def scale(it, multiplier):
     [2, 4, 6, 8, 10]
     """
     "*** YOUR CODE HERE ***"
+    yield from map(lambda x: x*multiplier, it)
 
 def hailstone(n):
     """
@@ -91,5 +100,9 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    yield int(n)
+    if n == 1: return
+    elif n % 2 == 0: yield from hailstone(n/2)
+    else: yield from hailstone(n*3 + 1)
 
 
