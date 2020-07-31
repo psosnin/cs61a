@@ -15,6 +15,12 @@ def make_adder_inc(n):
     11
     """
     "*** YOUR CODE HERE ***"
+    def add_n(x):
+        nonlocal n
+        n += 1
+        return n + x - 1
+    return add_n
+
 def make_fib():
     """Returns a function that returns the next Fibonacci number
     every time it is called.
