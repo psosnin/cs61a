@@ -12,7 +12,8 @@ def link_to_list(link):
     >>> link_to_list(Link.empty)
     []
     """
-    "*** YOUR CODE HERE ***"
+    if link == Link.empty: return []
+    return [link.first] + link_to_list(link.rest)
 
 # Trees
 
