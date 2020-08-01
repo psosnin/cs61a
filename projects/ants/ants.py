@@ -401,7 +401,7 @@ class TankAnt(ContainerAnt):
     food_cost = 6
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 10
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 10
 
     def __init__(self, armor=2):
@@ -409,7 +409,11 @@ class TankAnt(ContainerAnt):
 
     def action(self, gamestate):
         # BEGIN Problem 10
-        "*** YOUR CODE HERE ***"
+        bees = self.place.bees[:]
+        [bee.reduce_armor(self.damage) for bee in bees]
+        if self.contained_ant != None:
+            self.contained_ant.place = self.place
+            self.contained_ant.action(gamestate)
         # END Problem 10
 
 class Water(Place):
