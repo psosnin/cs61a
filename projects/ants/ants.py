@@ -122,11 +122,27 @@ class Ant(Insect):
     def add_to(self, place):
         if place.ant is None:
             place.ant = self
+            Insect.add_to(self, place)
+        elif isinstance(place.ant,ContainerAnt) and place.ant.contained_ant == None and not isinstance(self,ContainerAnt):
+            ant = place.ant
+            place.ant.contain_ant(self)
+            Insect.add_to(self, place)
+            Insect.add_to(ant,place)
+            #print("Ant in place = container, and contains no ant")
+            #print(place.ant)
+            #print(self)
+
+        elif isinstance(self,ContainerAnt) and self.contained_ant == None and not isinstance(place.ant,ContainerAnt):
+            ant = place.ant
+            ant.remove_from(place)
+            self.add_to(place)
+            ant.add_to(place)
+
         else:
             # BEGIN Problem 9
             assert place.ant is None, 'Two ants in {0}'.format(place)
             # END Problem 9
-        Insect.add_to(self, place)
+        
         
     def remove_from(self, place):
         if place.ant is self:
@@ -333,11 +349,13 @@ class ContainerAnt(Ant):
 
     def can_contain(self, other):
         # BEGIN Problem 9
-        
+        return True if self.contained_ant == None and not isinstance(other, ContainerAnt) else False
         # END Problem 9
 
     def contain_ant(self, ant):
         # BEGIN Problem 9
+        self.contained_ant = ant
+        self.contained_ant.place = self.place
         # END Problem 9
 
     def remove_ant(self, ant):
@@ -357,6 +375,9 @@ class ContainerAnt(Ant):
 
     def action(self, gamestate):
         # BEGIN Problem 9
+        if self.contained_ant != None:
+            self.contained_ant.place = self.place
+            self.contained_ant.action(gamestate)
         # END Problem 9
 
 class BodyguardAnt(ContainerAnt):
