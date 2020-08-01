@@ -103,6 +103,7 @@ class Ant(Insect):
 
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
+    blocks_path = True
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor=1):
@@ -267,22 +268,34 @@ class HungryAnt(Ant):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 6
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 6
+    time_to_digest = 3
 
     def __init__(self, armor=1):
         # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
+        self.digesting = False 
+        self.digest_count = 0
+        self.armor = armor
         # END Problem 6
 
     def eat_bee(self, bee):
         # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
+        bee.reduce_armor(bee.armor)
         # END Problem 6
 
     def action(self, gamestate):
         # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
+        if self.digesting == False and self.place.bees != []: 
+            self.eat_bee(random_or_none(self.place.bees))
+            self.digesting = True
+        if self.digest_count == self.time_to_digest:
+            self.digest_count = 0
+            self.digesting = False
+        elif self.digesting == True:
+            self.digest_count += 1
+        
+            
         # END Problem 6
 
 class NinjaAnt(Ant):
@@ -293,12 +306,14 @@ class NinjaAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 7
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 7
+    blocks_path = False
 
     def action(self, gamestate):
         # BEGIN Problem 7
-        "*** YOUR CODE HERE ***"
+        bees = self.place.bees[:]
+        [bee.reduce_armor(self.damage) for bee in bees]
         # END Problem 7
 
 # BEGIN Problem 8
@@ -450,7 +465,7 @@ class Bee(Insect):
         """Return True if this Bee cannot advance to the next Place."""
         # Phase 4: Special handling for NinjaAnt
         # BEGIN Problem 7
-        return self.place.ant is not None
+        return self.place.ant.blocks_path if self.place.ant != None else False
         # END Problem 7
 
     def action(self, gamestate):
