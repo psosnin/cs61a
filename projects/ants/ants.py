@@ -127,7 +127,7 @@ class Ant(Insect):
             assert place.ant is None, 'Two ants in {0}'.format(place)
             # END Problem 9
         Insect.add_to(self, place)
-
+        
     def remove_from(self, place):
         if place.ant is self:
             place.ant = None
@@ -317,7 +317,13 @@ class NinjaAnt(Ant):
         # END Problem 7
 
 # BEGIN Problem 8
-# The WallAnt class
+class WallAnt(Ant):
+    name ='Wall'
+    food_cost = 4
+    implemented = True
+    def __init__(self, armor=4):
+        # BEGIN Problem 6
+        self.armor = armor
 # END Problem 8
 
 class ContainerAnt(Ant):
@@ -327,12 +333,11 @@ class ContainerAnt(Ant):
 
     def can_contain(self, other):
         # BEGIN Problem 9
-        "*** YOUR CODE HERE ***"
+        
         # END Problem 9
 
     def contain_ant(self, ant):
         # BEGIN Problem 9
-        "*** YOUR CODE HERE ***"
         # END Problem 9
 
     def remove_ant(self, ant):
@@ -352,7 +357,6 @@ class ContainerAnt(Ant):
 
     def action(self, gamestate):
         # BEGIN Problem 9
-        "*** YOUR CODE HERE ***"
         # END Problem 9
 
 class BodyguardAnt(ContainerAnt):
@@ -362,7 +366,10 @@ class BodyguardAnt(ContainerAnt):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 9
-    implemented = False   # Change to True to view in the GUI
+    def __init__(self, armor = 2, *args, **kwargs):
+        ContainerAnt.__init__(self, *args, **kwargs)
+        self.armor = armor
+    implemented = True   # Change to True to view in the GUI
     # END Problem 9
 
 class TankAnt(ContainerAnt):
