@@ -16,14 +16,15 @@ def insert(link, value, index):
     >>> insert(link, 4, 5)
     IndexError
     """
-    if ____________________:
-        ____________________
-        ____________________
-        ____________________
-    elif ____________________:
-        ____________________
+    
+    if index == 0:
+        rest = Link(link.first,link.rest)
+        link.first = value
+        link.rest = rest
+    elif link.rest == link.empty:
+        raise IndexError
     else:
-        ____________________
+        insert(link.rest, value, index - 1)
 
 
 
