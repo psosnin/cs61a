@@ -1,8 +1,11 @@
 ;; Scheme ;;
 
 (define (over-or-under a b)
-  'YOUR-CODE-HERE
-)
+  (cond 
+  ((= a b) 0)
+  ((< a b) -1)
+  (else 1)
+))
 
 ;;; Tests
 (over-or-under 1 2)
@@ -13,8 +16,12 @@
 ; expect 0
 
 (define (filter-lst fn lst)
-  'YOUR-CODE-HERE
-)
+  (if (null? lst) nil
+  (if (fn (car lst))
+  (cons (car lst) (filter-lst fn (cdr lst)))
+  (filter-lst fn (cdr lst))
+  )
+))
 
 ;;; Tests
 (define (even? x)
@@ -23,7 +30,7 @@
 ; expect (0 2 8)
 
 (define (make-adder n)
-  'YOUR-CODE-HERE
+  (lambda (x) (+ x n))
 )
 
 ;;; Tests
@@ -34,15 +41,21 @@
 ;; Extra questions
 
 (define lst
-  'YOUR-CODE-HERE
+  (cons 
+    (cons 1 nil)
+    (cons 2 
+      (cons (cons 3 
+            (cons 4 nil))
+      (cons 5 nil))) 
+  )
 )
 
 (define (composed f g)
-  'YOUR-CODE-HERE
+  (lambda (x) (f (g x)))
 )
 
 (define (remove item lst)
-  'YOUR-CODE-HERE
+  (filter-lst (lambda (x) (not (eq? item x))) lst)
 )
 
 
