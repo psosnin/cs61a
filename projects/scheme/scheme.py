@@ -92,13 +92,16 @@ class Frame(object):
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 2
-        "*** YOUR CODE HERE ***"
+        self.bindings[symbol] = value
         # END PROBLEM 2
 
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 2
-        "*** YOUR CODE HERE ***"
+        if symbol in self.bindings:
+            return self.bindings[symbol]
+        elif self.parent != None:
+            return self.parent.lookup(symbol)
         # END PROBLEM 2
         raise SchemeError('unknown identifier: {0}'.format(symbol))
 
@@ -130,6 +133,19 @@ class Procedure(object):
 def scheme_procedurep(x):
     return isinstance(x, Procedure)
 
+def scm_list_to_py(lst):
+    pylst = []
+    while lst != nil:
+        if isinstance(lst.first, Pair):
+            pylst.append(scheme_list_to_py(lst.first))
+        else:
+            pylst.append(lst.first)
+        lst = lst.rest
+    return pylst
+
+
+
+
 class BuiltinProcedure(Procedure):
     """A Scheme procedure defined as a Python function."""
 
@@ -153,9 +169,11 @@ class BuiltinProcedure(Procedure):
         if not scheme_listp(args):
             raise SchemeError('arguments are not in a list: {0}'.format(args))
         # Convert a Scheme list to a Python list
-        python_args = []
+        python_args = scm_list_to_py(args)
         # BEGIN PROBLEM 3
-        "*** YOUR CODE HERE ***"
+        if self.use_env == True:
+            python_args.append(env)
+        
         # END PROBLEM 3
         try:
             return self.fn(*python_args)
