@@ -23,6 +23,7 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     4
     """
     # Evaluate atoms
+    #print('expr is', expr)
     if scheme_symbolp(expr):
         return env.lookup(expr)
     elif self_evaluating(expr):
@@ -32,11 +33,18 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     if not scheme_listp(expr):
         raise SchemeError('malformed list: {0}'.format(repl_str(expr)))
     first, rest = expr.first, expr.rest
+    #print('first is', first, 'second is', rest)
     if scheme_symbolp(first) and first in SPECIAL_FORMS:
+        #print('Special form')
         return SPECIAL_FORMS[first](rest, env)
     else:
         # BEGIN PROBLEM 4
-        "*** YOUR CODE HERE ***"
+        operator = scheme_eval(first, env)
+        #print('procedure is ', operator)
+        validate_procedure(operator)
+        operands = rest.map(lambda x: scheme_eval(x, env))
+        #print('args is ', operands)
+        return scheme_apply(operator, operands, env)
         # END PROBLEM 4
 
 def self_evaluating(expr):
@@ -135,11 +143,8 @@ def scheme_procedurep(x):
 
 def scm_list_to_py(lst):
     pylst = []
-    while lst != nil:
-        if isinstance(lst.first, Pair):
-            pylst.append(scheme_list_to_py(lst.first))
-        else:
-            pylst.append(lst.first)
+    while lst:
+        pylst.append(lst.first)
         lst = lst.rest
     return pylst
 
@@ -171,7 +176,7 @@ class BuiltinProcedure(Procedure):
         # Convert a Scheme list to a Python list
         python_args = scm_list_to_py(args)
         # BEGIN PROBLEM 3
-        if self.use_env == True:
+        if self.use_env:
             python_args.append(env)
         
         # END PROBLEM 3
@@ -255,7 +260,9 @@ def do_define_form(expressions, env):
     if scheme_symbolp(target): 
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 5
-        "*** YOUR CODE HERE ***"
+        value = expressions.rest.first
+        env.define(target, scheme_eval(value,env))
+        return target
         # END PROBLEM 5
     elif isinstance(target, Pair) and scheme_symbolp(target.first):
         # BEGIN PROBLEM 9
@@ -274,7 +281,7 @@ def do_quote_form(expressions, env):
     """
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    return expressions.first
     # END PROBLEM 6
 
 def do_begin_form(expressions, env):
