@@ -8,8 +8,17 @@
 ;; Returns a list of two-element lists
 (define (enumerate s)
   ; BEGIN PROBLEM 15
-  'replace-this-line
+  (define (helper s index) 
+    (if (null? s)
+      s
+      (cons (list index (car s)) 
+            (add (cdr s) (+ index 1))
+      )
+    )
   )
+  (add s 0)
+)
+
   ; END PROBLEM 15
 
 ;; Problem 16
@@ -18,8 +27,16 @@
 ;; the merged lists.
 (define (merge comp list1 list2)
   ; BEGIN PROBLEM 16
-  'replace-this-line
+  (define (helper list1 list2)
+    (cond 
+      ((null? list1) list2)
+      ((null? list2) list1)
+      ((comp (car list1) (car list2)) (cons (car list1) (helper (cdr list1) list2)))
+      (else (cons (car list2) (helper (cdr list2) list1)))
+    )
   )
+  (helper list1 list2)
+)
   ; END PROBLEM 16
 
 
@@ -29,11 +46,29 @@
 ; expect (10 9 8 7 5 4 3 1)
 
 ;; Problem 17
+(define (reverse n)
+  (define (iter a b)
+    (if (null? a) b
+        (iter (cdr a) (cons (car a) b))))
+  (iter n nil)
+)
 
-(define (nondecreaselist s)
+
+(define (nondecreaselist lst)
     ; BEGIN PROBLEM 17
-    'replace-this-line
-    )
+  (define (ndl-helper lst sublst)
+    (cond ((null? lst) (list (reverse sublst)))
+          ((or (null? sublst)
+               (>= (car lst) (car sublst)))
+           (ndl-helper (cdr lst) (cons (car lst) sublst)))
+          (else
+           (cons (reverse sublst) (ndl-helper lst '())))))
+  (ndl-helper lst '())
+)
     ; END PROBLEM 17
 
+;For example, if the input is a list containing elements
+;(1 2 3 4 1 2 3 4 1 1 1 2 1 1 0 4 3 2 1)
+;the output should contain elements
+;((1 2 3 4) (1 2 3 4) (1 1 1 2) (1 1) (0 4) (3) (2) (1))
 
