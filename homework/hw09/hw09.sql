@@ -30,12 +30,12 @@ CREATE TABLE size_of_dogs AS
 
 -- All dogs with parents ordered by decreasing height of their parent
 CREATE TABLE by_parent_height AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  select child from dogs, parents where parent = name order by height DESC;
 
 -- Filling out this helper table is optional
 CREATE TABLE siblings AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT a.child as sib_one, b.child as sib_two from parents as a, parents as b where a.parent = b.parent and a.child < b.child;;
 
 -- Sentences about siblings that are the same size
 CREATE TABLE sentences AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  select sib_one ||" and " || sib_two || " are " || a.size || " siblings"  from siblings, size_of_dogs as a, size_of_dogs as b  where sib_one = a.name and sib_two = b.name and a.size = b.size;
