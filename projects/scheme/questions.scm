@@ -12,11 +12,11 @@
     (if (null? s)
       s
       (cons (list index (car s)) 
-            (add (cdr s) (+ index 1))
+            (helper (cdr s) (+ index 1))
       )
     )
   )
-  (add s 0)
+  (helper s 0)
 )
 
   ; END PROBLEM 15

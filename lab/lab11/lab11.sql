@@ -1,13 +1,13 @@
 .read sp20data.sql
 
 CREATE TABLE obedience AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT seven, instructor from students where seven = "7" or seven = "the number 7 below." or seven = "seven";
 
 CREATE TABLE smallest_int AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT time,  smallest from students where smallest > 2 order by smallest ASC;
 
 CREATE TABLE matchmaker AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT a.pet, a.song, a.color, b.color from students as a, students as b where a.pet = b.pet and a.song = b.song and a.time < b.time;
 
 CREATE TABLE parents AS
   SELECT "abraham" AS parent, "barack" AS child UNION
@@ -44,7 +44,7 @@ CREATE TABLE stacks AS
   SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
 
 CREATE TABLE smallest_int_having AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT * from smallest_int group by smallest having count(smallest) = 1;
 
 CREATE TABLE sp20favpets AS
   SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
